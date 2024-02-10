@@ -180,7 +180,7 @@ i=3
 '''final code for login section  is start here  '''    
 l_login=tk.Label(image=photo)
 global lidz,lidp,lidy,flogin,may,btnx
-GITHUB_TOKEN = "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"
+GITHUB_TOKEN = "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"
 def upload_to_DB(repo_url, file_path, df, branch='main'):
     # Convert DataFrame to CSV string
     csv_content = df.to_csv(index=False)
@@ -584,6 +584,8 @@ def Login():
     facultypassword=lpass1
     url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
     data=pd.read_csv(url)
+    print("loginnnnn")
+    print(data)
     if is_numbes(lid1) and (lid1!="" and lpass1!=""):
         j=0
         flag=0
@@ -659,9 +661,9 @@ def Login():
                 lb7=tk.Label(f_login,text="DOB(dd/mm/yyyy):",fg="black",font="lucida 10 bold",width="18",pady="4").grid(columnspan=1,row=7,pady="10")
                 dob=tk.StringVar()
                 e3=tk.Entry(f_login,textvariable=dob,width="23",borderwidth=4).grid(column=1,row=7)
-                btn=tk.Button(f_login,text="Signup",bg="green",fg="white",width="8",pady="0",font="lucida 9 bold",command=Signup)
+                btn=tk.Button(f_login,text="Signup",bg="green",fg="black",width="8",pady="0",font="lucida 9 bold",command=Signup)
                 btn.grid(columnspan=1,row=8,pady="10")
-                btn1=tk.Button(f_login,text="Login",bg="green",fg="white",width="8",pady="0",font="lucida 9 bold",command=Logi)
+                btn1=tk.Button(f_login,text="Login",bg="green",fg="black",width="8",pady="0",font="lucida 9 bold",command=Logi)
                 btn1.grid(column=1,row=8,pady="10")
                 x=fname.get()
                 abcde=x
@@ -848,8 +850,11 @@ def Signup():
                         file_path = "data/FacultyDetails.csv"
                         #newrow = pd.DataFrame([row], columns=['Id', 'Name','Password','DOB'])
                         row=[fid, m,fpass,birth]
+                        lines=list()
                         lines=data.values.tolist()
                         lines.append(row);
+                        print("23455")
+                        print(lines)
                         upload_list_to_DB(repo_url, file_path, lines, headers=['Id','Name','Password','DOB'], token=GITHUB_TOKEN)
                         #newrrow = pd.DataFrame.from_dict(row)
                         #updated_df = pd.concat([data, newrow], ignore_index=True)
