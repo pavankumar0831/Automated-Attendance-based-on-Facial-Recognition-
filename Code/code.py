@@ -180,7 +180,7 @@ i=3
 '''final code for login section  is start here  '''    
 l_login=tk.Label(image=photo)
 global lidz,lidp,lidy,flogin,may,btnx
-GITHUB_TOKEN = "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"
+GITHUB_TOKEN = "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"
 def upload_to_DB(repo_url, file_path, df, branch='main'):
     # Convert DataFrame to CSV string
     csv_content = df.to_csv(index=False)
@@ -499,12 +499,15 @@ def is_numbes(s):
 def Logi():
     lid1=lid.get()
     lpass1=lpass.get()
+    print(lid1)
+    print(lpass1)
     if lid1!="" and lpass1!="":
         if is_numbes(lid1):
             url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
             data=pd.read_csv(url)
             j=0
             flag=0
+            print(data)
             #lb2=tk.Label(f_login,text="Password: ",font="lucida 10 bold").grid(column=0,row=3,pady="4")
             lb1=tk.Label(f_login,text="Login ID: ",font="lucida 10 bold").grid(column=0,row=2,pady="4")
         #print(lid1)
@@ -582,6 +585,9 @@ def Login():
     lpass1=lpass.get()
     facultyId=lid1
     facultypassword=lpass1
+    #print(xy)
+    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
+    data=pd.read_csv(url)
     url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
     data=pd.read_csv(url)
     print("loginnnnn")
@@ -876,6 +882,7 @@ def Signup():
                         lbj=tk.Label(f_login,width="42",pady="4").grid(columnspan=3,row=8,pady="10")
                         lbi=tk.Label(f_login,text="Signed Up Successfully",bg="limegreen",fg="black",font="lucida 10 bold",width="35",pady="3").grid(columnspan=2,row=7,pady="10")
                         lb6=tk.Label(f_login,width="42",pady="4").grid(columnspan=2,row=8,pady="10")
+                        
 
                     else:
                         lb1=tk.Label(f_login,text="Login ID: ",font="lucida 10 bold").grid(column=0,row=2,pady="4")
@@ -1055,7 +1062,7 @@ def login_allow():
     quitWindow.place(x=1000, y=550)
     copyWrite = tk.Text(roo, background=roo.cget("background"), borderwidth=0,font=('times', 30, 'italic bold underline'))
     copyWrite.tag_configure("superscript", offset=10)
-    copyWrite.insert("insert", "Developed by B2 ","", "TEAM-3")
+    #copyWrite.insert("insert", "Developed by B2 ","", "TEAM-3")
     copyWrite.configure(state="disabled",fg="darkmagenta"  )
     copyWrite.pack(side="left")
     copyWrite.place(x=1000, y=750)
