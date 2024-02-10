@@ -180,7 +180,7 @@ i=3
 '''final code for login section  is start here  '''    
 l_login=tk.Label(image=photo)
 global lidz,lidp,lidy,flogin,may,btnx
-GITHUB_TOKEN = "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"
+GITHUB_TOKEN = "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"
 def upload_to_DB(repo_url, file_path, df, branch='main'):
     # Convert DataFrame to CSV string
     csv_content = df.to_csv(index=False)
@@ -271,6 +271,17 @@ def exit():
     root.after(0,root.iconify)
     root.after(0,root.deiconify)
     
+def get_Raw_Data(url):
+    # Make a GET request to fetch the CSV data with the ?plain=1 parameter
+    response = requests.get(url)
+    data_dict = json.loads(response.content.decode())
+    x=data_dict['payload']['blob']['rawLines']
+    headers = x[0].split(',')
+    data_rows = [row.split(',') for row in x[1:]]
+    df = pd.DataFrame(data_rows, columns=headers)
+    df["Id"] = pd.to_numeric(df["Id"], errors='coerce')
+    return df
+
 def Done():
     
     global lidz,lidp,lidy,flogin,may,btnx
@@ -279,8 +290,8 @@ def Done():
     a=lid.get()
     b=lpass.get()
     c=lidy.get()
-    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
-    data=pd.read_csv(url)
+    url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/FacultyDetails.csv?plain=1"
+    data=get_Raw_Data(url)
 
     d=data["Name"][may]
     if x!="" and y!="":
@@ -370,8 +381,8 @@ def Update():
     l=lidy.get()
     
     if l!="":
-        url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
-        data=pd.read_csv(url)
+        url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/FacultyDetails.csv?plain=1"
+        data=get_Raw_Data(url)
         lbn=tk.Label(flogin,text="what is your date of birth:",width=28,font="lucida 10 bold").grid(column=0,row=2,pady="4")
         if str(l)==str(data["DOB"][may]):
             lbn=tk.Label(flogin,text="what is your date of birth:",width=29,font="lucida 10 bold").grid(column=0,row=2,pady="4")     
@@ -414,8 +425,8 @@ def forgot():
         g=0
         if is_number(lid1):
             lb1=tk.Label(f_login,text="Login ID: ",font="lucida 10 bold").grid(column=0,row=2,pady="4")
-            url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
-            ad=pd.read_csv(url)
+            url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/FacultyDetails.csv?plain=1"
+            ad=get_Raw_Data(url)
             while r<ad["Id"].size:
                 if not math.isnan(ad["Id"][r]):
                     if str(ad["Id"][r])==str(lid1):
@@ -503,7 +514,9 @@ def Logi():
     print(lpass1)
     if lid1!="" and lpass1!="":
         if is_numbes(lid1):
-            url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
+            url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/FacultyDetails.csv?plain=1"
+            #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
+            response = get_Raw_Data(url)
             data=pd.read_csv(url)
             j=0
             flag=0
@@ -586,12 +599,9 @@ def Login():
     facultyId=lid1
     facultypassword=lpass1
     #print(xy)
-    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
-    data=pd.read_csv(url)
-    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
-    data=pd.read_csv(url)
-    print("loginnnnn")
-    print(data)
+    url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/FacultyDetails.csv?plain=1"
+    #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
+    data=get_Raw_Data(url)
     if is_numbes(lid1) and (lid1!="" and lpass1!=""):
         j=0
         flag=0
@@ -745,8 +755,9 @@ def Signup():
     if pqr!="" and fpass!="":
         j=0
         flag=1
-        url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
-        data=pd.read_csv(url)
+        url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/FacultyDetails.csv?plain=1"
+        #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
+        data=get_Raw_Data(url)
         while j<data["Id"].size:
             if not math.isnan(data["Id"][j]):
                 
@@ -997,8 +1008,9 @@ def quit(*fu):
 def login_allow():
     global roo
     global abc,logs
-    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
-    data=pd.read_csv(url)
+    url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/FacultyDetails.csv?plain=1"
+    #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
+    data=get_Raw_Data(url)
     roo = tk.Tk()
     mk=lid.get()
     global message
@@ -1062,7 +1074,7 @@ def login_allow():
     quitWindow.place(x=1000, y=550)
     copyWrite = tk.Text(roo, background=roo.cget("background"), borderwidth=0,font=('times', 30, 'italic bold underline'))
     copyWrite.tag_configure("superscript", offset=10)
-    #copyWrite.insert("insert", "Developed by B2 ","", "TEAM-3")
+    copyWrite.insert("insert", "Developed by B2 ","", "TEAM-3")
     copyWrite.configure(state="disabled",fg="darkmagenta"  )
     copyWrite.pack(side="left")
     copyWrite.place(x=1000, y=750)
@@ -1148,8 +1160,9 @@ def dong():
     p=txt.get()
     q=ty.get()
     if o!="" and q!="":
-            url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-            df=pd.read_csv(url)
+            url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"
+            #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+            df=get_Raw_Data(url)
             #message = tk.Label(roo, text="Please Register(New User)/Trainning Purpose(Old User)" ,bg="yellow"  ,fg="red"  ,width=42  ,height=2, activebackground = "yellow" ,font=('times', 15, ' bold '))                                         
             res="Please Register(New User)/Trainning Purpose(Old User)" 
             message.configure(text=res)
@@ -1259,8 +1272,9 @@ def forgo():
                 message.configure(text=res)
                 i=0
                 flag=0
-                url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-                df=pd.read_csv(url)
+                url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"
+                #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+                df=get_Raw_Data(url)
                 while i<df["Id"].size:
                     if not math.isnan(df["Id"][i]):
                         if int(df["Id"][i])==int(n):
@@ -1323,8 +1337,9 @@ def dones():
     name=(txt2.get())
     passw=(txt3.get())
     dob=(tx.get())
-    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-    df=pd.read_csv(url)    
+    url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"
+    #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+    df=get_Raw_Data(url)    
     
     if Id!="" and name!="" and passw!=""and dob!="":
         i=0
@@ -1556,8 +1571,9 @@ def dont():
     p=txt.get()
     q=ty.get()
     if o!="" and q!="":
-            url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-            df=pd.read_csv(url) 
+            url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"
+            #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+            df=get_Raw_Data(url) 
             #message = tk.Label(roo, text="Please Register(New User)/Trainning Purpose(Old User)" ,bg="yellow"  ,fg="red"  ,width=42  ,height=2, activebackground = "yellow" ,font=('times', 15, ' bold '))                                         
             res="Please Register(New User)/Trainning Purpose(Old User)" 
             message.configure(text=res)
@@ -1680,8 +1696,9 @@ def changepassword():
                 message.configure(text=res)
                 i=0
                 flag=0
-                url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-                df=pd.read_csv(url)
+                url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"
+                #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+                df=get_Raw_Data(url)
                 while i<df["Id"].size:
                     if not math.isnan(df["Id"][i]):
                         if int(df["Id"][i])==int(n):
@@ -1755,8 +1772,9 @@ def don():
     global tx,message,lbab,clearButtonab,lbcd,clearButtoncd,txt,txt2,tt,clearButtonef
     p=txt.get()
     o=tx.get()
-    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-    df=pd.read_csv(url)
+    url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"
+    #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+    df=get_Raw_Data(url)
     #df=pd.read_csv("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\Face-Recognition-Based-Attendance-System-master\\StudentDetails\\StudentDetails.csv")
     if o!="":
             #message = tk.Label(roo, text="Please Register(New User)/Trainning Purpose(Old User)" ,bg="yellow"  ,fg="red"  ,width=42  ,height=2, activebackground = "yellow" ,font=('times', 15, ' bold '))                                         
@@ -1867,8 +1885,9 @@ def editname():
                     message.configure(text=res)
                     i=0
                     flag=0
-                    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-                    df=pd.read_csv(url)
+                    url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"
+                    #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+                    df=get_Raw_Data(url)
                     #df=pd.read_csv("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\Face-Recognition-Based-Attendance-System-master\\StudentDetails\\StudentDetails.csv")
                     while i<df["Id"].size:
                         if not math.isnan(df["Id"][i]):
@@ -2011,140 +2030,7 @@ def upload_image_to_DB(repo_url, folder_path, image_path, image, branch='main', 
     # Remove the temporary image file
     #os.remove(local_image_path)
 
-
-# def TakeImages():
-#     global message,txt,txt2,txt3,roo
-#     Id=(txt.get())
-#     name=(txt2.get())
-#     passw=(txt3.get())
-#     if cv2.waitKey(100) & 0xFF == ord('q'):
-#         roo.destroy()
-#     url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-#     df=pd.read_csv(url)
-#     #df=pd.read_csv("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\Face-Recognition-Based-Attendance-System-master\\StudentDetails\\StudentDetails.csv")
     
-    
-#     if Id!="" and name!="" and passw!="":
-#         i=0
-#         flag=0
-#         kr=0
-#         while i<df["Id"].size:
-#             if not math.isnan(df["Id"][i]):
-#                 if str(int(df["Id"][i]))==str(Id):
-#                     kr=1
-#                     break
-#             i+=1
-#         i=0    
-#         while i<df["Id"].size:
-#             if not math.isnan(df["Id"][i]):
-#                 if not is_number(df["Password"][i]):
-#                     if str(int(df["Id"][i]))==str(Id) and str(df["Password"][i])==str(passw):
-#                         flag=1
-#                         break
-#                 else:
-#                     if str(int(df["Id"][i]))==str(Id) and str(int(df["Password"][i]))==str(passw):
-#                         flag=1
-#                         break        
-#             i+=1
-#         print(flag)
-#         print(kr)
-#         if(flag==1 and kr==1): 
-#             x=1
-#             i=0
-#             o=name
-#             while i<len(o):
-#                 if o[i]!="0" and o[i]!="1" and o[i]!="2" and o[i]!="3" and o[i]!="4" and o[i]!="5" and o[i]!="6" and o[i]!="7" and o[i]!="8" and o[i]!="9":
-#                     x=1
-#                 else:
-#                     x=0
-#                     break
-#                 i+=1  
-#             if(is_number(Id) and x==1):
-#                 cam = cv2.VideoCapture(0)
-#                 i=1
-#                 repo_url = "https://api.github.com/repos/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-"
-#                 file_path = "data/TrainingImage/"
-#                 while is_file_present(repo_url,file_path+str(int(Id)) +"/"+str(int(Id))+"."+ str(i)+".jpg"):
-#                 #while os.path.exists("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\Face-Recognition-Based-Attendance-System-master\\TrainingImage\\"+str(int(Id)) +"\\"+str(int(Id))+"."+ str(i)+".jpg"):
-#                     i+=1
-#                 if i>1:
-#                     sampleNum=i-1
-#                 else:
-#                     sampleNum=i
-#                 asd=i+50
-#                 url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/faces.xml"
-#                 facepath = cv2.CascadeClassifier(url)
-#                 #detector=cv2.CascadeClassifier(harcascadePath)
-#                 #eyepath= cv2.CascadeClassifier("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\automated attendence\\eyes.xml")
-#                 while(True):
-#                     ret, img = cam.read()
-#                     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#                     faces = facepath.detectMultiScale(gray, 1.3, 5)
-#                     for (x,y,w,h) in faces:
-#                         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)        
-#                 #incrementing sample number 
-#                         sampleNum=sampleNum+1
-#                         roi_gray = gray[y:y+h, x:x+w]
-#                         #eye=eyepath.detectMultiScale(roi_gray)
-#                         #roi_color = img[y:y+h, x:x+w]
-#                         if not is_file_present(repo_url,file_path+str(int(Id))):
-#                             create_folder_if_not_exists(repo_url,file_path+str(int(Id))
-#                                 #os.mkdir("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\Face-Recognition-Based-Attendance-System-master\\TrainingImage\\"+str(int(Id)))
-
-#                 #saving the captured face in the dataset folder TrainingImage
-#                         #folder_path = "data/TrainingImage/"
-#                         image_path=str(int(Id))+"."+ str(sampleNum)+".jpg"
-#                         upload_image_to_DB(repo_url, "data/TrainingImage/" + str(int(Id)), image_path, gray[y:y+h,x:x+w])
-#                         #cv2.imwrite("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\Face-Recognition-Based-Attendance-System-master\\TrainingImage\\"+str(int(Id))+"\\"+str(int(Id)) +"."+ str(sampleNum)+".jpg" , gray[y:y+h,x:x+w])
-#                 #display the frame
-#                         cv2.imshow('frame',img)
-#             #wait for 100 miliseconds 
-#                     if cv2.waitKey(100) & 0xFF == ord('q'):
-#                         break
-#             # break if the sample number is morethan 80
-#                     elif sampleNum>asd:
-#                         break
-#                 cam.release()
-#                 cv2.destroyAllWindows() 
-#                 res = "Images Saved for ID : " + Id +" Name : "+ name
-            
-#                 message.configure(text= res)
-#             else:
-#                 if(not name.isalpha()):
-#                     res = "Enter Alphabetical Name"
-#                     message.configure(text= res) 
-#                 if(not is_number(Id)):
-#                     res = "Enter Numeric Id"
-#                     message.configure(text= res)
-#         else:
-#             if kr==0:
-#                 res="Please Register Your ID"
-#                 message.configure(text=res)
-#             if kr==1 and flag==0:
-#                 res="Invalid Password for Your ID"
-#                 message.configure(text=res)
-#     else:
-#         if Id=="" and name=="" and passw=="":
-#             res="Please Enter Your ID,Name and Password"
-#             message.configure(text=res)
-#         elif Id=="" and name=="" and passw!="":
-#             res="Please Enter Your ID and Name"
-#             message.configure(text=res)
-#         elif Id=="" and name!="" and passw=="":
-#             res="Please Enter Your ID and Password"
-#             message.configure(text=res)
-#         elif Id=="" and name!="" and passw!="":
-#             res="Please Enter Your ID"
-#             message.configure(text=res)    
-#         elif Id!="" and name=="" and passw=="":
-#             res="Please Enter Your Name and Password"
-#             message.configure(text=res)
-#         elif Id!="" and name=="" and passw!="":
-#             res="Please Enter Your Name"
-#             message.configure(text=res)
-#         elif Id!="" and name!="" and passw=="":
-#             res="Please Enter Your Password"
-#             message.configure(text=res)    
 
 def TakeImages():
     global message, txt, txt2, txt3, roo
@@ -2154,9 +2040,9 @@ def TakeImages():
     
     if cv2.waitKey(100) & 0xFF == ord('q'):
         roo.destroy()
-        
-    url = "https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-    df = pd.read_csv(url)
+    url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"    
+    #url = "https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+    df = get_Raw_Data(url)
     
     if Id != "" and name != "" and passw != "":
         i = 0
@@ -2353,8 +2239,9 @@ def TrainImages():
     if ad!="" and af!="" and aw!="":
         i=0
         kr=0
-        url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-        df=pd.read_csv(url)                                                 
+        url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"
+        #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+        df=get_Raw_Data(url)                                                 
         #df=pd.read_csv("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\Face-Recognition-Based-Attendance-System-master\\StudentDetails\\StudentDetails.csv")
         
         while i<df["Id"].size:
@@ -2546,8 +2433,9 @@ def TrackImages():
     recognizer=list()
     oj=0
     og=0
-    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-    da=pd.read_csv(url) 
+    url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"
+    #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+    da=get_Raw_Data(url) 
     print(da["Id"][oj])
     #da=pd.read_csv("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\Face-Recognition-Based-Attendance-System-master\\StudentDetails\\StudentDetails.csv")
     while oj<da["Id"].size:
@@ -2580,9 +2468,10 @@ def TrackImages():
     faceCascade =cv2.CascadeClassifier(temp_file_path)
     os.unlink(temp_file_path)
 #     xml_content = np.frombuffer(response.content, np.uint8)
-#     faceCascade =cv2.CascadeClassifier(xml_content) 
-    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
-    df=pd.read_csv(url)
+#     faceCascade =cv2.CascadeClassifier(xml_content)
+    url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/StudentDetails/StudentDetails.csv?plain=1"
+    #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/StudentDetails/StudentDetails.csv"
+    df=get_Raw_Data(url)
     #df=pd.read_csv("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\Face-Recognition-Based-Attendance-System-master\\StudentDetails\\StudentDetails.csv")
     global message2
     cam = cv2.VideoCapture(0)
@@ -2655,8 +2544,9 @@ def TrackImages():
     
     #print(ma)
     #print(xy)
-    url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
-    data=pd.read_csv(url)
+    url="https://github.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/blob/main/data/FacultyDetails.csv?plain=1"
+    #url="https://raw.githubusercontent.com/pavankumar0831/Automated-Attendance-based-on-Facial-Recognition-/main/data/FacultyDetails.csv"
+    data=get_Raw_Data(url)
     #data=pd.read_csv("C:\\Users\\Pavan\\Desktop\\B Tech Final Year Project\\Face-Recognition-Based-Attendance-System-master\\FacultyDetails\\FacultyDetails.csv")        
     global abc
     ts = time.time()      
